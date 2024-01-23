@@ -50,7 +50,7 @@ const translationsNorimaki = {
       description: ["Inside-Out sjögräsrulle med avocado, gurka, crabbstick och chilimajo", "Inside-Out sjögräsrulle som innehåller avocado, gurka, crabbstick. Toppas med Halstrad lax samt chilimajo"],
     },
     2: {
-      dishname: ["Standard roll"],
+      dishname: "Standard roll",
       description: ["Inside-Out sjögräsrulle med lax, gurka, crabbstick"],
     },
   },
@@ -86,20 +86,27 @@ const translationsNorimaki = {
   },
 };
 const Menu = ({ name, dishes, translations, getDishDetails }) => {
-  return (
-    <div className="bg-orange-800 text-white">
-      <h2 className="text-2xl font-bold">{name}</h2>
-      {dishes.map((dish) => (
-        <div key={dish.id}>
-          <h3>{dish.dishname.map((name) => name)}</h3>
-          <p>{dish.description.map((desc) => desc)}</p>
-          <div>
-          {dish.pieces.map((piece) => piece)} || {dish.types.map((type) => type)}
+  try {
+    return (
+      <div className="bg-orange-800 text-white">
+        <h2 className="text-2xl font-bold">{name}</h2>
+        {dishes && dishes.map((dish) => (
+          <div key={dish.id}>
+            <h3>{Array.isArray(dish.dishname) && dish.dishname.join(' // ')}</h3>
+            <p>{Array.isArray(dish.description) && dish.description.join(' // ')}</p>
+            <div>
+              {Array.isArray(dish.pieces) && dish.pieces.join(', ')}
+              {Array.isArray(dish.types) && dish.types.join(', ')}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
-  );
+        ))}
+      </div>
+    );
+  } catch (error) {
+    console.error("Error rendering Menu:", error);
+    // You can add a fallback UI or handle the error in another way here
+    return <div>Error rendering Menu. Please try again later.</div>;
+  }
 };
 
 function App() {

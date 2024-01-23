@@ -42,5 +42,3 @@ export const translations = {
         },
       },
 };
-
-export const selectedLanguage = ["Swedish", "English", "Spanish", "French"]
